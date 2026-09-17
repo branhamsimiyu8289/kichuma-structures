@@ -36,64 +36,49 @@ const projects = [
         title: "The Dam Redhill",
         location: "The Bamboo Dam",
         image: "assets/images/zipline-construction.jpg",
-        alt: "Zipline project at The Dam Redhill with scenic dam views.",
         description: "A thrilling zipline installed over the scenic dam with beautiful panoramic views. Ziplining across a dam is so lively. There is a long zipline at KSh 1000/= and a short one at KSh 500/=. Come and experience an adrenaline rush with us."
-    },
-    {
-        title: "The Kentmere Club",
-        location: "The Kentmere Club",
-        image: "",
-        alt: "The Kentmere Club project offers a relaxed, scenic outdoor adventure setting for members and guests.",
-        description: "A welcoming leisure project designed for a premium club environment, blending adventure with a refined outdoor experience for families, friends, and visitors."
-    },
-    {
-        title: "Redhill Kating",
-        location: "Redhill Kating",
-        image: "",
-        alt: "Redhill Kating is a nature-focused adventure site with a memorable outdoor activity experience.",
-        description: "A vibrant outdoor project in a scenic location, ideal for visitors looking for a memorable adventure experience in a peaceful and natural setting."
     },
     {
         title: "Naiposha Gardens",
         location: "Naiposha Gardens",
         image: "assets/images/sky-cycling.jpg",
-        alt: "Naiposha Gardens features a lush zipline experience over natural garden scenery.",
         description: "Beautiful zipline set in lush gardens, offering a perfect blend of nature and adventure. This is a hidden gem around Kabuku. A 700m zipline over a farm and garden is so elating and satisfying."
     },
     {
         title: "The Big 5 Lounge",
         location: "Big 5 Lounge Ruaka",
         image: "assets/images/giant-swings.jpg",
-        alt: "The Big 5 Lounge project includes a fun zipline across a restaurant garden setting.",
         description: "Exciting zipline project at The Big 5 Lounge. A short zipline across a garden on a restaurant. Available for both kids and adults at only KSh 200/=. Come all!"
     },
     {
         title: "La Cascadas Miguela Sports Garden",
         location: "La Cascada, Ruaka",
         image: "assets/images/zipline-inspection.jpg",
-        alt: "La Cascadas Miguela Sports Garden has a zipline crossing a waterfall river course.",
         description: "Zipline designed for sports and recreational activities. The zipline goes across a river with a waterfall. Two-way zipline for both kids and adults at KSh 700 per person."
     },
     {
         title: "The Stephanos, Gatundu",
         location: "Gatundu, Stephanos Resort",
         image: "assets/images/high-ropes.jpg",
-        alt: "The Stephanos project combines zipline and ropes features for team-building adventure.",
         description: "Zipline and rope course project ideal for team building. A hidden gem in Gatundu South."
     },
     {
         title: "Twin Rivers, Tigoni",
         location: "Tigoni",
         image: "assets/images/sky-cycling.jpg",
-        alt: "Twin Rivers Tigoni combines sky cycling and giant swings above tea gardens.",
         description: "Impressive zipline combined with sky cycling and giant swings above the tea gardens."
     },
     {
         title: "Tenwek Falls",
         location: "Tenwek",
         image: "assets/images/zipline-construction.jpg",
-        alt: "Tenwek Falls features a dramatic zipline crossing the river below a waterfall.",
         description: "Spectacular zipline across River Mara at Tenwek Falls."
+    },
+    {
+        title: "The Kentmere Club",
+        location: "The Kentmere Club, Tigoni",
+        image: "assets/images/high-ropes.jpg",
+        description: "Exciting zipline and outdoor adventure structure installation nestled within the historic, tranquil gardens of The Kentmere Club in Tigoni. Perfect for team building, recreation, and family getaways amidst rolling tea plantations."
     }
 ];
 
@@ -116,27 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Modal Function
     function showModal(project) {
-        const imageEl = document.getElementById('modal-image');
-        const imageAltEl = document.getElementById('modal-image-alt');
-        const altText = project.alt || `No image available for ${project.title}.`;
-
         document.getElementById('modal-title').textContent = project.title;
-        document.getElementById('modal-description').textContent = project.description;
+        document.getElementById('modal-image').src = project.image;
+document.getElementById('modal-description').textContent = project.description;
         document.getElementById('modal-location').textContent = project.location;
-
-        if (project.image) {
-            imageEl.src = project.image;
-            imageEl.alt = altText;
-            imageEl.style.display = 'block';
-            imageAltEl.textContent = '';
-            imageAltEl.style.display = 'none';
-        } else {
-            imageEl.removeAttribute('src');
-            imageEl.alt = altText;
-            imageEl.style.display = 'none';
-            imageAltEl.textContent = altText;
-            imageAltEl.style.display = 'block';
-        }
 
         const modal = document.getElementById('project-modal');
         modal.classList.add('show');
