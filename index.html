@@ -691,6 +691,7 @@ footer {
             color: var(--text-black);
             font-family: var(--font-family);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 2rem 1rem;
@@ -834,6 +835,9 @@ footer {
         } #booking input:focus, #booking select:focus, #booking textarea:focus {
             border-color: var(--ks-red);
             box-shadow: 0 0 0 3px var(--ks-red-glow);
+        } #booking .field-invalid {
+            border-color: #d90429 !important;
+            box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.18) !important;
         } #booking select {
             cursor: pointer;
             appearance: none;
@@ -1015,11 +1019,13 @@ footer {
         .mobile-only {
             display: none;
         } #booking .back-to-home-link {
-            display: inline-block;
+            display: block;
+            width: 100%;
             color: var(--ks-red);
             font-size: 0.85rem;
             font-weight: 700;
             text-decoration: none;
+            text-align: center;
             margin-bottom: 1.25rem;
         } #booking .back-to-home-link:hover {
             text-decoration: underline;
@@ -1457,9 +1463,9 @@ discuss how we can help
     <!-- BOOKING (merged from booking.html) -->
     <div id="booking" class="page-content">
         <div class="booking-page-wrapper">
-<div class="letterhead-wrapper">
-
         <a href="#" class="back-to-home-link" data-page="home">&larr; Back to Home</a>
+
+    <div class="letterhead-wrapper">
 
         <!-- Step Progress Indicator -->
         <div class="progress-bar">
@@ -1673,7 +1679,8 @@ discuss how we can help
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h2 id="modal-title"></h2>
-            <img id="modal-image" src="" alt="Project photo">
+            <img id="modal-image" src="" alt="Project photo" style="display: block;">
+            <p id="modal-image-alt" class="modal-image-alt" style="display: none; margin: 1rem 0; font-weight: 600; color: #1b2a41;"></p>
             <p id="modal-description"></p>
             <p><strong>Location:</strong> <span id="modal-location"></span></p>
 
@@ -1908,6 +1915,13 @@ document.getElementById('modal-description').textContent = project.description;
             const dd = String(tomorrow.getDate()).padStart(2, '0');
             
             dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+            // Clear invalid-field highlighting as the person edits the form.
+            ['name', 'phone', 'service', 'date', 'location'].forEach(id => {
+                const el = document.getElementById(id);
+                el.addEventListener('input', () => el.classList.remove('field-invalid'));
+                el.addEventListener('change', () => el.classList.remove('field-invalid'));
+            });
         });
 
         // Step Navigation
@@ -2074,22 +2088,65 @@ document.getElementById('modal-description').textContent = project.description;
         function submitBooking(event) {
             event.preventDefault();
 
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const service = document.getElementById('service').value;
-            const dateVal = document.getElementById('date').value;
-            const location = document.getElementById('location').value.trim();
-            const details = document.getElementById('details').value.trim();
+            const nameInput = document.getElementById('name');
+            const phoneInput = document.getElementById('phone');
+            const serviceInput = document.getElementById('service');
+            const dateInput = document.getElementById('date');
+            const locationInput = document.getElementById('location');
+            const detailsInput = document.getElementById('details');
             const bookingErr = document.getElementById('bookingError');
 
-            // Strictly enforce FUTURE dates
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const service = serviceInput.value;
+            const dateVal = dateInput.value;
+            const location = locationInput.value.trim();
+            const details = detailsInput.value.trim();
+
+            [nameInput, phoneInput, serviceInput, dateInput, locationInput].forEach(el => {
+                el.classList.remove('field-invalid');
+            });
+
+            const fail = (el, message) => {
+                el.classList.add('field-invalid');
+                el.focus();
+                bookingErr.style.display = 'block';
+                bookingErr.innerText = message;
+            };
+
+            const namePattern = /^(?=(?:.*[A-Za-z]){2,})[A-Za-z\s'-]{3,}$/;
+            if (!namePattern.test(name)) {
+                fail(nameInput, 'Please enter your full name using letters only (at least 3 characters).');
+                return;
+            }
+
+            const phonePattern = /^\+?[0-9\s-]{9,15}$/;
+            if (!phonePattern.test(phone)) {
+                fail(phoneInput, 'Please enter a valid phone number, e.g. +254712345678 or 0712345678.');
+                return;
+            }
+
+            if (!service) {
+                fail(serviceInput, 'Please select a service.');
+                return;
+            }
+
+            if (!dateVal) {
+                fail(dateInput, 'Please select your preferred date.');
+                return;
+            }
+
             const selectedDate = new Date(dateVal + "T00:00:00");
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
             if (selectedDate <= today) {
-                bookingErr.style.display = 'block';
-                bookingErr.innerText = 'STRICT DATE POLICY: Selected date must strictly be in the future (from tomorrow onwards). Past or current dates are not allowed.';
+                fail(dateInput, 'STRICT DATE POLICY: Selected date must strictly be in the future (from tomorrow onwards). Past or current dates are not allowed.');
+                return;
+            }
+
+            if (location.length < 3) {
+                fail(locationInput, 'Please enter a valid venue / facility location (at least 3 characters).');
                 return;
             }
             bookingErr.style.display = 'none';
