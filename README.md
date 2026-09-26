@@ -143,7 +143,7 @@ This project is currently intended for personal or business site use. Add an exp
 
 ## Author
 
-Kichuma Structures
+Branham Simiyu
 
 ## Contributing
 
