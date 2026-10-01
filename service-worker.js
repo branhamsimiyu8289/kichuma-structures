@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kichuma-structures-v1';
+const CACHE_NAME = 'kichuma-structures-v2';
 const APP_SHELL = [
     './',
     './index.html',
