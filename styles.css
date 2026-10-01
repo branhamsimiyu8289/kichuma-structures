@@ -335,13 +335,15 @@ header {
 }
 .youtube-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 22px;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    max-width: 960px;
+    margin-inline: auto;
 }
 .youtube-embed-wrapper {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 aspect ratio */
+    aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -349,11 +351,15 @@ header {
 }
 .youtube-embed-wrapper iframe {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     border: 0;
+}
+@media (max-width: 560px) {
+    .youtube-embed-wrapper {
+        border-radius: 8px;
+    }
 }
 .youtube-channel-link {
     text-align: center;
@@ -1205,5 +1211,65 @@ footer {
             text-decoration: underline;
             color: var(--text-black);
         }
+
+.install-app-card {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-items: center;
+    gap: 0.65rem 1rem;
+    padding: 1.15rem;
+    border: 1px solid #c8d5d1;
+    border-radius: 8px;
+    background: #f1f6f4;
+}
+.install-app-card > img {
+    grid-row: span 2;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+.install-app-copy h3 {
+    margin: 0 0 0.35rem;
+}
+.install-app-copy p,
+.install-app-status {
+    margin: 0;
+    line-height: 1.45;
+}
+.install-app-button {
+    grid-column: 2;
+    justify-self: start;
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-radius: 6px;
+    background: #b51f2a;
+    color: #fff;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.install-app-button:hover,
+.install-app-button:focus-visible {
+    background: #8f1720;
+}
+.install-app-status {
+    grid-column: 1 / -1;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+    .install-app-card {
+        grid-template-columns: 52px minmax(0, 1fr);
+        padding: 1rem;
+    }
+    .install-app-card > img {
+        width: 52px;
+        height: 52px;
+    }
+    .install-app-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
     
     

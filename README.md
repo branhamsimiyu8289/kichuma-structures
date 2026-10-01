@@ -128,6 +128,12 @@ To complete the repo metadata on GitHub:
 4. update the repository description and website fields
 5. enable GitHub Pages if you want the preview link to work live
 
+## Deploying on Vercel
+
+This is a static site and does not need a build command. Push the repository to GitHub, import it into Vercel, and select `kichuma-structures` as the Root Directory if the repository also contains the other workspace files. Use the `Other` framework preset and leave the Build Command and Output Directory empty. If the repository contains only this project, leave the Root Directory at `./`.
+
+The deployed HTTPS site includes an installable web app manifest and service worker. Android and supported desktop browsers can use the Install app button; on iPhone or iPad, open the site in Safari and choose Share, then Add to Home Screen.
+
 ## Future Improvements
 
 - real backend form handling
